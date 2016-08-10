@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 
 var config = require('./config').config;
-var callback = require('./config').loginCallback;
+var loginCallback = require('./config').loginCallback;
 var readme_config = require('./config').readmeConfig;
 var utils = require('./utils');
 var http = require('http');
@@ -63,7 +63,10 @@ var callback = function(req, res) {
       }
     };
 
-    request(req_options, callback);
+    request(req_options, (err, req, body) => {
+      var userData = loginCallback(body);
+      res.redirect(utils.jwt(readme_config, userData));
+    });
   }
 };
 
