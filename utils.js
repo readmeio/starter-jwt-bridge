@@ -13,5 +13,5 @@ exports.jwt = function(config, user) {
 
 // Todo make this actually show a real page
 exports.homePage = function(req, res){
-  return res.send("Successfully deployed! You should be redirected through the testing flow momentarily.")
-}
+  return res.send("Successfully deployed! You should be redirected through the testing flow momentarily.");
+};

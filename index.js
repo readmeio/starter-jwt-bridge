@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 
 var config = require('./config').config;
+var callback = require('./config').loginCallback;
 var readme_config = require('./config').readmeConfig;
 var utils = require('./utils');
 var http = require('http');
@@ -62,17 +63,7 @@ var callback = function(req, res) {
       }
     };
 
-    request(req_options, function(err, req, body) {
-      // TODO-JWT Figure out how to make this obvious
-      res.redirect(utils.jwt(readme_config, {
-        'email': body.email,
-        'name': body.name,
-        'keys': {
-          api_Key: '12345',
-          name: "Marc's Project"
-        }
-      }));
-    });
+    request(req_options, callback);
   }
 };
 
@@ -80,7 +71,7 @@ app.get('/', utils.homePage);
 app.get('/p/:project/oauth', redirect);
 app.get('/p/:project/oauth/callback', callback);
 
-var port = process.env.PORT || 3001
+var port = process.env.PORT || 3001;
 app.listen(port);
 
 console.log('Express server started on port ' + port);
