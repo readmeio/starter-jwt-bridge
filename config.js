@@ -25,6 +25,6 @@ exports.loginCallback = function(body){
 // Readme config -- automicatically configured for your project
 exports.readmeConfig = {
   redirect_uri: "https://oauth.readme.io/p/README_PROJECT/oauth/callback",
-  readme_url: README_URL,
-  jwt_secret: JWT_SECRET
+  // readme_url: README_URL,
+  // jwt_secret: JWT_SECRET
 };

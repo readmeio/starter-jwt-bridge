@@ -81,7 +81,6 @@ var callback = function(req, res) {
 app.use(express.cookieParser());
 
 app.get('/', utils.homePage);
-app.get('/p/:project/', utils.testPage);
 app.get('/p/:project/oauth', redirect);
 app.get('/p/:project/oauth/callback', callback);
 
