@@ -18,6 +18,10 @@ var oauth2 = require('simple-oauth2')({
 });
 
 var redirect = function(req, res) {
+  
+  if(req.query.test){
+    res.cookie('test', 'true', { maxAge: 3600 });
+  }
 
   // Authorization uri definition
   var authorization_uri = oauth2.authCode.authorizeURL({
@@ -65,12 +69,19 @@ var callback = function(req, res) {
 
     request(req_options, (err, req, body) => {
       var userData = loginCallback(body);
+      if(res.cookie.test){
+        res.clearCookie('test');
+        res.send(userData);
+      }
       res.redirect(utils.jwt(readme_config, userData));
     });
   }
 };
 
+app.use(express.cookieParser());
+
 app.get('/', utils.homePage);
+app.get('/p/:project/', utils.testPage);
 app.get('/p/:project/oauth', redirect);
 app.get('/p/:project/oauth/callback', callback);
 
