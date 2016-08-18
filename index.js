@@ -20,7 +20,7 @@ var oauth2 = require('simple-oauth2')({
 var redirect = function(req, res) {
   
   if(req.query.test){
-    res.cookie('test', 'true', { maxAge: 3600 });
+    res.cookie('test', 'true', { maxAge: 900000 });
   }
 
   // Authorization uri definition
@@ -30,12 +30,13 @@ var redirect = function(req, res) {
     state: ''
   });
 
-  res.redirect(authorization_uri);
+  // res.redirect(authorization_uri);
 };
 
 var callback = function(req, res) {
 
   var code = req.query.code;
+  var cookies = req.cookies;
 
   oauth2.authCode.getToken({
     code: code,
@@ -69,11 +70,12 @@ var callback = function(req, res) {
 
     request(req_options, (err, req, body) => {
       var userData = loginCallback(body);
-      if(res.cookie.test){
+      if(cookies.test){
         res.clearCookie('test');
-        res.send(userData);
+        return res.send(userData);
+      }else{
+        res.redirect(utils.jwt(readme_config, userData));  
       }
-      res.redirect(utils.jwt(readme_config, userData));
     });
   }
 };
