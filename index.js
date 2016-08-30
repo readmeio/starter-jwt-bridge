@@ -3,11 +3,11 @@ var app = express();
 
 var config = require('./config').config;
 var loginCallback = require('./config').loginCallback;
-var readme_config = require('./config').readmeConfig;
+var readmeConfig = require('./config').readmeConfig;
 var utils = require('./utils');
 var http = require('http');
 
-var authorization_uri = '';
+var authorizationUri = '';
 
 var oauth2 = require('simple-oauth2')({
   site: true, // Don't delete this, weird requirement of simple-oauth2
@@ -18,19 +18,19 @@ var oauth2 = require('simple-oauth2')({
 });
 
 var redirect = function(req, res) {
-  
-  if(req.query.test){
+
+  if(req.query.test) {
     res.cookie('test', 'true', { maxAge: 900000 });
   }
 
   // Authorization uri definition
-  var authorization_uri = oauth2.authCode.authorizeURL({
-    redirect_uri: readme_config.redirect_uri,
+  var authorizationUri = oauth2.authCode.authorizeURL({
+    redirect_uri: readmeConfig.redirect_uri,
     scope: config.scope,
-    state: ''
+    state: '',
   });
 
-  // res.redirect(authorization_uri);
+  res.redirect(authorizationUri);
 };
 
 var callback = function(req, res) {
@@ -40,41 +40,42 @@ var callback = function(req, res) {
 
   oauth2.authCode.getToken({
     code: code,
-    redirect_uri: readme_config.redirect_uri,
+    redirect_uri: readmeConfig.redirect_uri,
     client_id: config.clientID,
     client_secret: config.clientSecret,
   }, saveToken);
 
   function saveToken(error, result) {
-    if (error) { console.log('Access Token Error', error.message); }
+    if (error) { return res.status(500).send('Access Token Error: ' + error.message); }
+
     token = oauth2.accessToken.create(result);
 
     var params = params || {};
     var request = require('request');
     var querystring = require('querystring');
 
-    if(typeof result === 'string'){
+    if(typeof result === 'string') {
       result = querystring.parse(result);
     }
 
-    var req_options = {
+    var reqOptions = {
       url: config.profilePath,
       json: true,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        "Accept": "application/json",
+        Accept: 'application/json',
         'User-Agent': 'ReadMe',
-        'Authorization': `Bearer ${result.access_token}`
-      }
+        Authorization: `Bearer ${result.access_token}`,
+      },
     };
 
-    request(req_options, (err, req, body) => {
+    request(reqOptions, (err, req, body) => {
       var userData = loginCallback(body);
-      if(cookies.test){
+      if(cookies.test) {
         res.clearCookie('test');
         return res.send(userData);
-      }else{
-        res.redirect(utils.jwt(readme_config, userData));  
+      }else {
+        res.redirect(utils.jwt(readmeConfig, userData));
       }
     });
   }
