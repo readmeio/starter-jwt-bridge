@@ -88,7 +88,7 @@ app.get('/', utils.homePage);
 app.get('/p/:project/oauth', redirect);
 app.get('/p/:project/oauth/callback', callback);
 
-var port = process.env.PORT || 3002;
+var port = process.env.PORT || 3001;
 app.listen(port);
 
 console.log('Express server started on port ' + port);
