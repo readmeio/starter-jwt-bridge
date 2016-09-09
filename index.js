@@ -79,6 +79,7 @@ var callback = function(req, res) {
   }
 };
 
+app.set('views', './');
 app.set('view engine', 'pug');
 app.use(express.cookieParser());
 app.use(utils.readmeSetup);
