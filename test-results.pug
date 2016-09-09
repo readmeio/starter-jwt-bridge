@@ -2,4 +2,4 @@ h1 Good news! It seems to have worked
 p Here is the user object that we got:
 code!= JSON.stringify(user)
 br
-button(onclick='window.opener.testStatus("success"); window.close()') Close Window 
+button(onclick='parent.postMessage("success", "*"); window.close()') Close Window 
