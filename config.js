@@ -11,7 +11,7 @@ exports.config = {
 // the info your server returned about them.
 // Return the user info you want to pass to readme
 exports.loginCallback = function(body) {
-  // See readme.readme.io/jwt for more specific info about the format
+  // See https://readme.readme.io/v2.0/docs/passing-data-to-jwt for more specific info about the format
   return {
     email: body.email,
     name: body.name,
