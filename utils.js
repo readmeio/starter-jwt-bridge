@@ -14,7 +14,7 @@ var jwt = function(req, res) {
 
     if(req.cookies.test) {
       res.clearCookie('test');
-      return res.send(user);
+      return res.render('test-results', { user: user });
     }else {
       return res.redirect(jwtURL);
     }
