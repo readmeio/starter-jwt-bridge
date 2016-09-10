@@ -1,5 +1,6 @@
 h1 Good news! It seems to have worked
 p Here is the user object that we got:
-code!= JSON.stringify(user, null, 4)
+pre
+  code!= JSON.stringify(user, null, 4)
 br
 button(onclick='window.opener.postMessage("success", "*"); window.close()') Close Window
