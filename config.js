@@ -10,13 +10,13 @@ exports.config = {
 // At this point the user has been authenticated and body contains
 // the info your server returned about them.
 // Return the user info you want to pass to readme
-exports.loginCallback = function(body) {
+exports.loginCallback = function(body, accessToken) {
   // See https://readme.readme.io/v2.0/docs/passing-data-to-jwt for more specific info about the format
   return {
     email: body.email,
     name: body.name,
     keys: {
-      api_key: body.api_key,
+      api_key: accessToken,
       name: body.project_name,
     },
   };

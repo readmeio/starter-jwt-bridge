@@ -71,7 +71,7 @@ var callback = function(req, res) {
 
       // Transforms user information into readme format
       // More info on the format at https://readme.readme.io/v2.0/docs/passing-data-to-jwt
-      var userData = loginCallback(body);
+      var userData = loginCallback(body, result.access_token);
 
       // Redirects to readme JWT url
       return req.utils.jwt(userData);
