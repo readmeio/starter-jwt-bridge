@@ -8,6 +8,8 @@ var utils = require('./utils');
 var http = require('http');
 var request = require('request');
 var querystring = require('querystring');
+var md5 = require('md5');
+require('now-logs')(md5(readmeConfig.jwt_secret).substr(0, 7));
 
 var authorizationUri = '';
 
@@ -49,6 +51,8 @@ var callback = function(req, res) {
   function saveToken(error, result) {
     if (error) { return res.status(500).send('Access Token Error: ' + error.message); }
 
+    console.log({ result });
+
     var token = oauth2.accessToken.create(result);
 
     if(typeof result === 'string') {
@@ -69,9 +73,13 @@ var callback = function(req, res) {
 
     request(reqOptions, (err, r, body) => {
 
+      console.log({ body })
+
       // Transforms user information into readme format
       // More info on the format at https://readme.readme.io/v2.0/docs/passing-data-to-jwt
       var userData = loginCallback(body, result.access_token);
+
+      console.log({ userData });
 
       // Redirects to readme JWT url
       return req.utils.jwt(userData);
