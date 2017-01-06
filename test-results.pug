@@ -3,5 +3,5 @@ p Here is the user object that we got:
 pre
   code!= JSON.stringify(user, null, 4)
 br
-button(onclick='window.opener.postMessage("failure", "*"); window.close()') Not quite right
+button(onclick='window.opener.postMessage("failure", "*"); window.close()') View Logs
 button(onclick='window.opener.postMessage("success", "*"); window.close()') Looks Good!
