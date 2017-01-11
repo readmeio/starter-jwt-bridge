@@ -9,7 +9,7 @@ var http = require('http');
 var request = require('request');
 var querystring = require('querystring');
 var md5 = require('md5');
-require('now-logs')('readme-README_PROJECT');
+require('now-logs')('readme-LOG_SECRET');
 
 var authorizationUri = '';
 
