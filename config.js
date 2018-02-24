@@ -15,7 +15,7 @@ exports.loginCallback = function(body, accessToken) {
   return {
     email: body.email,
     name: body.name,
-    api_key: accessToken,
+    apiKey: accessToken,
   };
 };
 
