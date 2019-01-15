@@ -16,7 +16,7 @@ var jwt = function(req, res) {
       res.clearCookie('test');
       return res.render('test-results', { user: user });
     }else {
-      return res.redirect(jwtURL);
+      return res.redirect(`${jwtURL}?redirect=${req.query.redirect}`);
     }
   };
 };
