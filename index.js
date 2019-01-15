@@ -26,7 +26,7 @@ var redirect = function(req, res) {
 
   // Generates url using info from config
   var authorizationUri = oauth2.authCode.authorizeURL({
-    redirect_uri: readmeConfig.redirect_uri,
+    redirect_uri: `${readmeConfig.redirect_uri}?redirect=${req.query.redirect}`,
     scope: config.scope,
     state: '',
   });
@@ -42,7 +42,7 @@ var callback = function(req, res) {
   // Exchanges code for token
   oauth2.authCode.getToken({
     code: code,
-    redirect_uri: readmeConfig.redirect_uri,
+    redirect_uri: `${readmeConfig.redirect_uri}?redirect=${req.query.redirect}`,
     client_id: config.clientID,
     client_secret: config.clientSecret,
   }, saveToken);
